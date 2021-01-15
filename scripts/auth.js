@@ -1,12 +1,16 @@
 //add admin cloud function
 const adminForm = document.querySelector('.admin-actions');
+const adminRoleSuccess = document.querySelector('#adminRoleSuccess');
+const adminRoleFail = document.querySelector('#adminRoleFail');
 adminForm.addEventListener('submit', e => {
     e.preventDefault();
     const adminEmail = document.querySelector('#admin-email').value;
-    console.log(adminEmail);
     const addAdminRole = functions.httpsCallable('addAdminRole');
     addAdminRole({ email: adminEmail })
-        .then(result => console.log(result));
+        .then(result => {
+            adminRoleSuccess.querySelector('h4').textContent = result.data.message;
+            M.Modal.getInstance(adminRoleSuccess).open();
+        })
     adminForm.reset();
 })
 
